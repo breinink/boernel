@@ -4,6 +4,7 @@
 <body>
 
 <?php
+require_once __DIR__ . '/db.php';
 $ronde = $_POST["round"];
 $datum = $_POST["dateId"];
 $wie = strval($_POST["wie"]);
@@ -27,7 +28,7 @@ $verzaker = strval($_POST["Verzaker"]);
 
 $id = $datum * 100 + $ronde;
 
-$con = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$con = dbConnect();
 
 
 $sql  = "INSERT INTO `Test2` (`ID`, `SpelID`, `Hand`) VALUES ('$id', '$datum', '$ronde') ON DUPLICATE KEY UPDATE `SpelID` = '$datum', `Hand` = '44'";

@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+require_once __DIR__ . '/config/db.php';
+$connect = dbConnect();
 $tijd = (time() - 365 * 24 * 3600) * 1000;
 $query ="SELECT o.Naam, o.ELO_na,o.SpelID FROM `Boernel_spel_totaal` o LEFT JOIN `Boernel_spel_totaal` b ON o.Naam = b.Naam AND o.SpelID < b.SpelID INNER JOIN Spelerdata on Spelerdata.Naam = o.Naam WHERE b.SpelID is NULL ORDER BY o.ELO_na DESC";
 $result = mysqli_query($connect, $query);
@@ -121,7 +122,8 @@ $tijd2 = (time() - 100 * 24 * 3600) * 1000;
                   </div>
 
                <p class="footer text-center text-muted">
-                © 2018 - <?php echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
+                © 2018 - <?php
+echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
 
               </p>
 

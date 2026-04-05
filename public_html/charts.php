@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config/db.php';
 function formatDatum($timestamp, $format) {
     $maanden = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
     $dagen   = ['ma','di','wo','do','vr','za','zo'];
@@ -22,7 +23,7 @@ $rows[] = 1200;
 
 $win[] = -1;
 $naam = $_GET["speler"];
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$connect = dbConnect();
 $query ="SELECT * FROM `Boernel_spel_totaal` WHERE `Naam` = '$naam' ORDER BY `SpelID` ASC";
 $result = mysqli_query($connect, $query);
 $potten = 0;
@@ -158,7 +159,8 @@ $rows3[] = Round($gespeeld_aantal / $hand_aantal * 100,0);
     </div>
 
 <div class="container-fluid text-center">
-<!--<h4>Test<?php print_r($handen);?></h4>-->
+<!--<h4>Test<?php
+print_r($handen);?></h4>-->
 </div>
 
 
@@ -198,7 +200,8 @@ $rows3[] = Round($gespeeld_aantal / $hand_aantal * 100,0);
 </div>
 </div>
   <p class="footer text-center text-muted">
-    © 2018 - <?php echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
+    © 2018 - <?php
+echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
   </p>
   </div>
 </body>
@@ -250,13 +253,19 @@ if (isDarkMode) {
 }
 var plotLineColor = isDarkMode ? '#aaa' : 'black';
 
-var handen = <?php echo json_encode($handen, JSON_FORCE_OBJECT); ?>;
-Data = <?php echo json_encode($rows); ?>;
-Data2 = <?php echo json_encode($rows2); ?>;
-Data3 = <?php echo json_encode($rows3); ?>;
-Win = <?php echo json_encode($win); ?>;
+var handen = <?php
+echo json_encode($handen, JSON_FORCE_OBJECT); ?>;
+Data = <?php
+echo json_encode($rows); ?>;
+Data2 = <?php
+echo json_encode($rows2); ?>;
+Data3 = <?php
+echo json_encode($rows3); ?>;
+Win = <?php
+echo json_encode($win); ?>;
 var Naam = 'test';
-Naam = <?php echo json_encode($naam); ?>;
+Naam = <?php
+echo json_encode($naam); ?>;
 var total = 0;
 
 for(var i = 0; i < Data.length; i++) {

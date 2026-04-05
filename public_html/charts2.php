@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config/db.php';
 
 $GSA70 = 0;
 $GSA80 = 0;
@@ -76,7 +77,7 @@ if (file_exists($foto)) {
   $foto = "fotos/geen.png";
 }
 
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$connect = dbConnect();
 $query ="SELECT DISTINCT spelrondes.ID, spelrondes.Speler1, spelrondes.Speler2, spelrondes.Speler3, spelrondes.Speler4, spelrondes.Wie, spelrondes.Op, spelrondes.Voor, spelrondes.Team, spelrondes.PuntenWij, spelrondes.PuntenZij, spelrondes.StatusWij, spelrondes.StatusZij
 FROM spelrondes
     INNER JOIN Boernel_spel_totaal on Boernel_spel_totaal.SpelID = spelrondes.boernelDateID
@@ -423,19 +424,22 @@ $result2 = mysqli_query($connect, $query2);
         <a href="stats.php" class="btn btn-info btn-lg" role="button">Ranglijst</a>
     </div>
     <div class="col-xs-6 text-right">
-      <a href="charts.php?speler=<?php print_r($naam);?>" class="btn btn-warning btn-lg" role="button">ELO-ontwikkeling</a>
+      <a href="charts.php?speler=<?php
+print_r($naam);?>" class="btn btn-warning btn-lg" role="button">ELO-ontwikkeling</a>
       </div>
     </div>
     <div>
       <br>
       <div class="row">
       <div class="col-xs-12 text-center">
-        <h3><b><font color="#777777"><?php print_r($naam);?></font></b></h3>
+        <h3><b><font color="#777777"><?php
+print_r($naam);?></font></b></h3>
       </div>
       </div>
       <div class="row">
         <div class="col-xs-5 text-right nopaddingr">
-          <img src="<?php echo $foto; ?>" class="img-thumbnail img-responsive" alt="foto">
+          <img src="<?php
+echo $foto; ?>" class="img-thumbnail img-responsive" alt="foto">
           </div>
           <div class="col-xs-4 text-left">
       <h4>Potten:</h4>
@@ -446,11 +450,16 @@ $result2 = mysqli_query($connect, $query2);
 
     </div>
     <div class="col-xs-3 text-left nopaddingl">
-      <h4><?php print_r($potten);?></h4>
-      <h4><?php print_r($winst_P);?>%</h4>
-      <h4><?php print_r($laatste);?></h4>
-      <h4><?php print_r($ELO);?></h4>
-      <h4><?php print_r($ELO_A);?></h4>
+      <h4><?php
+print_r($potten);?></h4>
+      <h4><?php
+print_r($winst_P);?>%</h4>
+      <h4><?php
+print_r($laatste);?></h4>
+      <h4><?php
+print_r($ELO);?></h4>
+      <h4><?php
+print_r($ELO_A);?></h4>
     </div>
     </div>
     </div>
@@ -545,7 +554,8 @@ $result2 = mysqli_query($connect, $query2);
 
 
   <p class="footer text-center text-muted">
-    © 2018 - <?php echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
+    © 2018 - <?php
+echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
   </p>
   </div>
   </div>
@@ -554,10 +564,13 @@ $result2 = mysqli_query($connect, $query2);
 <script>
 var Datazelf = new Array();
 var Datagem = new Array();
-Datazelf = <?php echo json_encode($P_zelf); ?>;
-Datagem = <?php echo json_encode($P_gem); ?>;
+Datazelf = <?php
+echo json_encode($P_zelf); ?>;
+Datagem = <?php
+echo json_encode($P_gem); ?>;
 var Naam = 'Zelf';
-Naam = <?php echo json_encode($naam); ?>;
+Naam = <?php
+echo json_encode($naam); ?>;
 
 var isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
 if (isDarkMode) {

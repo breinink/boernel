@@ -4,11 +4,12 @@
 <body>
 
 <?php
+require_once __DIR__ . '/db.php';
 
 
 
 
-$con = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$con = dbConnect();
 if (!$con) {
     echo "Geen verbinding";
 }

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config/db.php';
 
 
 $wij = array();
@@ -19,7 +20,7 @@ $elo4 = 1200;
 
 $game = 0;
 $game = (int)$_GET["game"];
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$connect = dbConnect();
 $query ="Select * from spelrondes t inner join (SELECT Hand,MAX(ID) as MaxID FROM spelrondes WHERE boernelDateID = $game GROUP BY Hand)a on a.Hand = t.Hand and a.MaxID = ID";
 $result = mysqli_query($connect, $query);
 while($row = mysqli_fetch_array($result))
@@ -165,34 +166,41 @@ $tekst = $wijnaam . ' vs ' .$zijnaam;
 
 
         <div class="col-xs-3 nopaddingr">
-        <img src="<?php echo $foto1; ?>" class="img-rounded img-responsive pull-right" alt="Speler 1">
+        <img src="<?php
+echo $foto1; ?>" class="img-rounded img-responsive pull-right" alt="Speler 1">
         </div>
         <div class="col-xs-3 nopaddingl">
-        <img src="<?php echo $foto2; ?>" class="img-rounded img-responsive pull-left" alt="Speler 2">
+        <img src="<?php
+echo $foto2; ?>" class="img-rounded img-responsive pull-left" alt="Speler 2">
       </div>
 
 
 
       <div class="col-xs-3 nopaddingr">
-      <img src="<?php echo $foto3; ?>" class="img-rounded img-responsive pull-right" alt="Speler 3">
+      <img src="<?php
+echo $foto3; ?>" class="img-rounded img-responsive pull-right" alt="Speler 3">
       </div>
       <div class="col-xs-3 nopaddingl">
-      <img src="<?php echo $foto4; ?>" class="img-rounded img-responsive pull-left" alt="Speler 4">
+      <img src="<?php
+echo $foto4; ?>" class="img-rounded img-responsive pull-left" alt="Speler 4">
 
 
     </div>
     </div>
     <div class="row">
     <div class="col-xs-6 text-left">
-    <h4><font color="#EB984E"><?php echo $wijnaam?><br><?php echo $kans1?>%</font></h4>
+    <h4><font color="#EB984E"><?php
+echo $wijnaam?><br><?php echo $kans1?>%</font></h4>
     </div>
 
     <div class="col-xs-6 text-right">
-    <h4><font color="#5499C7"><?php echo $zijnaam?><br><?php echo $kans2?>%</font></h4>
+    <h4><font color="#5499C7"><?php
+echo $zijnaam?><br><?php echo $kans2?>%</font></h4>
     </div>
   </div>
 <div class="container-fluid text-center">
-<!--<h4><font color="#EB984E"><?php echo $wijnaam?></font> vs. <font color="#5499C7"><?php echo $zijnaam?></font></h4>-->
+<!--<h4><font color="#EB984E"><?php
+echo $wijnaam?></font> vs. <font color="#5499C7"><?php echo $zijnaam?></font></h4>-->
 
 </div>
 
@@ -203,8 +211,10 @@ $tekst = $wijnaam . ' vs ' .$zijnaam;
                <tr>
                     <td>Hand</td>
                     <td>Wie speelt?</td>
-                    <td><font color="#EB984E"><?php echo $p1?> &<br><?php echo $p2?></font></td>
-                    <td><font color="#5499C7"><?php echo $p3?> &<br><?php echo $p4?></font></td>
+                    <td><font color="#EB984E"><?php
+echo $p1?> &<br><?php echo $p2?></font></td>
+                    <td><font color="#5499C7"><?php
+echo $p3?> &<br><?php echo $p4?></font></td>
                </tr>
           </thead>
           <?php
@@ -225,7 +235,8 @@ $tekst = $wijnaam . ' vs ' .$zijnaam;
 </div>
 
   <p class="footer text-center text-muted">
-    © 2018 - <?php echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
+    © 2018 - <?php
+echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
   </p>
   </div>
 </body>
@@ -272,12 +283,16 @@ var Nodig = 20;
 var Handen = 1;
 var ScoreWij = 0;
 var ScoreZij = 0;
-Datawij = <?php echo json_encode($wij); ?>;
-Datazij = <?php echo json_encode($zij); ?>;
+Datawij = <?php
+echo json_encode($wij); ?>;
+Datazij = <?php
+echo json_encode($zij); ?>;
 var Naamwij = 'test';
 var Naamzij = 'test';
-Naamwij = <?php echo json_encode($wijnaam); ?>;
-Naamzij = <?php echo json_encode($zijnaam); ?>;
+Naamwij = <?php
+echo json_encode($wijnaam); ?>;
+Naamzij = <?php
+echo json_encode($zijnaam); ?>;
 ScoreWij = Datawij[Datawij.length - 1];
 ScoreZij = Datazij[Datazij.length - 1];
 Handen = (Datawij.length - 1);

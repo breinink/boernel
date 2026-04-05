@@ -4,6 +4,7 @@
 <body>
 
 <?php
+require_once __DIR__ . '/db.php';
 
 $speler1 = strval($_POST["Speler1"]);
 $speler2 = strval($_POST["Speler2"]);
@@ -12,7 +13,7 @@ $speler4 = strval($_POST["Speler4"]);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 
-$con = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$con = dbConnect();
 
 $sql="SELECT Punten_Na FROM ELO3 WHERE Naam = '$speler1' limit 1";
 $result = mysqli_query($con,$sql);

@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+require_once __DIR__ . '/db.php';
+$connect = dbConnect();
 $query ="SELECT `naam`,`ELO` FROM totaal2raw";
 $result = mysqli_query($connect, $query);
 ?>

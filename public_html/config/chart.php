@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+require_once __DIR__ . '/db.php';
+$connect = dbConnect();
 $query ="SELECT Datum, GemPuntenTotaal FROM perspelerperdatum where Naam = 'Bernard'";
 $result = mysqli_query($connect, $query);
 $scores = array();
@@ -40,9 +41,12 @@ $data = array();
 
 <script type="text/javascript">
 
-    var data_datum = [<?php echo join($datum, ',') ?>]
-    var data_score = [<?php echo join($scores, ',') ?>]
-    var data = [<?php echo join($data, ',') ?>]
+    var data_datum = [<?php
+echo join($datum, ',') ?>]
+    var data_score = [<?php
+echo join($scores, ',') ?>]
+    var data = [<?php
+echo join($data, ',') ?>]
 
 
     Highcharts.chart('container', {

@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config/db.php';
 function formatDatum($timestamp, $format) {
     $maanden = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
     $dagen   = ['ma','di','wo','do','vr','za','zo'];
@@ -14,7 +15,7 @@ function formatDatum($timestamp, $format) {
 }
 $tijd = (time() - 2 * 3600) * 1000;
 $tijd2 = (time() - 100 * 24 * 3600) * 1000;
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$connect = dbConnect();
 $query ="SELECT * FROM spelrondes WHERE (ID IN (SELECT MAX(ID) FROM spelrondes WHERE boernelDateID > '$tijd' GROUP BY boernelDateID)) OR (boernelDateID > '$tijd2' AND (TotaalPuntenWij >= 1500 OR PuntenTotaalZij >= 1500)) ORDER BY boernelDateID DESC";
 $result = mysqli_query($connect, $query);
 $tijd = (time() - 365 * 24 * 3600) * 1000;
@@ -414,11 +415,13 @@ ol.carousel-indicators {
 
 
 						<div class="col-xs-5">
-						<img src="<?php echo $fotoC1; ?>" class="img-rounded img-responsive center-block" alt="Team p1">
+						<img src="<?php
+echo $fotoC1; ?>" class="img-rounded img-responsive center-block" alt="Team p1">
 
 						</div>
 						<div class="col-xs-5">
-						<img src="<?php echo $fotoC2; ?>" class="img-rounded img-responsive center-block" alt="Team p2">
+						<img src="<?php
+echo $fotoC2; ?>" class="img-rounded img-responsive center-block" alt="Team p2">
 
 					</div>
 					<div class="col-xs-1">
@@ -430,12 +433,14 @@ ol.carousel-indicators {
 				<div class="row row-fluid">
 				<div class="col-xs-4">
 				<div class="caption" style="text-align:right;">
-				<h4><font color="#D4AF37"><?php echo $tekst3; ?></font></h4>
+				<h4><font color="#D4AF37"><?php
+echo $tekst3; ?></font></h4>
 				</div>
 				</div>
 				<div class="col-xs-8">
 				<div class="caption" style="text-align:center;">
-				<h5><font color="#777777"><?php echo '<a href="game.php?game='.$spelid2.'">'; ?><?php echo $tekst4; ?></a></font></h5>
+				<h5><font color="#777777"><?php
+echo '<a href="game.php?game='.$spelid2.'">'; ?><?php echo $tekst4; ?></a></font></h5>
 				</div>
 				</div>
 				</div>
@@ -457,7 +462,8 @@ ol.carousel-indicators {
 
 
 		<div class="col-xs-4">
-		<img src="<?php echo $foto2; ?>" class="img-rounded img-responsive center-block" alt="Plek 2">
+		<img src="<?php
+echo $foto2; ?>" class="img-rounded img-responsive center-block" alt="Plek 2">
 		<div class="caption">
 		<h4><font color="#C0C0C0"><i class="fa fa-medal"></i></font></h4>
 		</div>
@@ -465,7 +471,8 @@ ol.carousel-indicators {
 
 		</div>
 		<div class="col-xs-5">
-		<img src="<?php echo $foto1; ?>" class="img-rounded img-responsive center-block" alt="Plek 1">
+		<img src="<?php
+echo $foto1; ?>" class="img-rounded img-responsive center-block" alt="Plek 1">
 		<div class="caption">
 		<h4><font color="#D4AF37"><i class="fa fa-trophy"></i></font></h4>
 		</div>
@@ -474,7 +481,8 @@ ol.carousel-indicators {
 
 
 	<div class="col-xs-3">
-	<img src="<?php echo $foto3; ?>" class="img-rounded img-responsive center-block" alt="Plek 3">
+	<img src="<?php
+echo $foto3; ?>" class="img-rounded img-responsive center-block" alt="Plek 3">
 	<div class="caption">
 	<h4><font color="#cd7f32"><i class="fa fa-medal"></i></font></h4>
 	</div>
@@ -496,26 +504,32 @@ ol.carousel-indicators {
 
 
 						<div class="col-xs-4">
-						<img src="<?php echo $fotoA2; ?>" class="img-rounded img-responsive center-block" alt="Plek 2">
+						<img src="<?php
+echo $fotoA2; ?>" class="img-rounded img-responsive center-block" alt="Plek 2">
 						<div class="caption">
-						<h5><font color="#C0C0C0">+<?php echo $elo2; ?> ELO</font></h5>
+						<h5><font color="#C0C0C0">+<?php
+echo $elo2; ?> ELO</font></h5>
 						</div>
 
 
 						</div>
 						<div class="col-xs-5">
-						<img src="<?php echo $fotoA1; ?>" class="img-rounded img-responsive center-block" alt="Plek 1">
+						<img src="<?php
+echo $fotoA1; ?>" class="img-rounded img-responsive center-block" alt="Plek 1">
 						<div class="caption">
-						<h4><font color="#D4AF37">+<?php echo $elo1; ?> ELO</font></h4>
+						<h4><font color="#D4AF37">+<?php
+echo $elo1; ?> ELO</font></h4>
 						</div>
 					</div>
 
 
 
 					<div class="col-xs-3">
-					<img src="<?php echo $fotoA3; ?>" class="img-rounded img-responsive center-block" alt="Plek 3">
+					<img src="<?php
+echo $fotoA3; ?>" class="img-rounded img-responsive center-block" alt="Plek 3">
 					<div class="caption">
-					<h5><font color="#cd7f32">+<?php echo $elo3; ?> ELO</font></h5>
+					<h5><font color="#cd7f32">+<?php
+echo $elo3; ?> ELO</font></h5>
 					</div>
 					</div>
 
@@ -538,11 +552,13 @@ ol.carousel-indicators {
 
 
 						<div class="col-xs-5">
-						<img src="<?php echo $fotoB1; ?>" class="img-rounded img-responsive center-block" alt="Team p1">
+						<img src="<?php
+echo $fotoB1; ?>" class="img-rounded img-responsive center-block" alt="Team p1">
 
 						</div>
 						<div class="col-xs-5">
-						<img src="<?php echo $fotoB2; ?>" class="img-rounded img-responsive center-block" alt="Team p2">
+						<img src="<?php
+echo $fotoB2; ?>" class="img-rounded img-responsive center-block" alt="Team p2">
 
 					</div>
 					<div class="col-xs-1">
@@ -554,12 +570,14 @@ ol.carousel-indicators {
 				<div class="row row-fluid">
 				<div class="col-xs-4">
 				<div class="caption" style="text-align:right;">
-				<h4><font color="#D4AF37"><?php echo $tekst; ?></font></h4>
+				<h4><font color="#D4AF37"><?php
+echo $tekst; ?></font></h4>
 				</div>
 				</div>
 				<div class="col-xs-8">
 				<div class="caption" style="text-align:center;">
-				<h5><font color="#777777"><?php echo '<a href="game.php?game='.$spelid.'">'; ?><?php echo $tekst2; ?></a></font></h5>
+				<h5><font color="#777777"><?php
+echo '<a href="game.php?game='.$spelid.'">'; ?><?php echo $tekst2; ?></a></font></h5>
 				</div>
 				</div>
 				</div>
@@ -628,7 +646,8 @@ ol.carousel-indicators {
 
 
 		<p class="footer text-center text-muted">
-	    © 2018 - <?php echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
+	    © 2018 - <?php
+echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
 	  </p>
 <script>
 function toggleDark(){var isDark=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',isDark?'light':'dark');localStorage.setItem('boernel-theme',isDark?'light':'dark');document.getElementById('darkIcon').className=isDark?'fas fa-moon':'fas fa-sun';}

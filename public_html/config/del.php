@@ -4,10 +4,11 @@
 <body>
 
 <?php
+require_once __DIR__ . '/db.php';
 $ronde = $_POST["round"];
 $datum = $_POST["dateId"];
 
-$con = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+$con = dbConnect();
 if (!$con) {
     die('Could not connect: ' . mysqli_error($con));
 }

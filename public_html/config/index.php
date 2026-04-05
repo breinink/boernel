@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+require_once __DIR__ . '/db.php';
+$connect = dbConnect();
 $query ="SELECT * FROM spelrondes WHERE (ID IN (SELECT MAX(ID) FROM spelrondes WHERE boernelDateID > 1534327791000 GROUP BY boernelDateID)) OR (boernelDateID > 1524302591000 AND (TotaalPuntenWij > 1500 OR PuntenTotaalZij > 1500)) ORDER BY boernelDateID DESC";
 $result = mysqli_query($connect, $query);
 $tijd = time();

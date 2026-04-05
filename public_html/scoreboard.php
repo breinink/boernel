@@ -1,5 +1,6 @@
 <?php
-$connect = mysqli_connect('localhost','kwwsxpsyzh','PMA8Krqa3N','kwwsxpsyzh');
+require_once __DIR__ . '/config/db.php';
+$connect = dbConnect();
 $query ="SELECT Naam, Sub FROM `Spelerdata` WHERE Actief = 1 ORDER BY Sub ASC, Naam ASC";
 $result1 = mysqli_query($connect, $query);
 $result2 = mysqli_query($connect, $query);
@@ -425,7 +426,8 @@ $result4 = mysqli_query($connect, $query);
 
 
 		<p class="footer text-center text-muted">
-			© 2018 - <?php echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
+			© 2018 - <?php
+echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
 
 		</p>
 
