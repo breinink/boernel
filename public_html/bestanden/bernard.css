@@ -1,0 +1,277 @@
+body {
+    overflow-x: hidden;
+}
+
+h2 small {
+    font-size: 45%;
+}
+
+.bronze {
+  background-color: #B0C4DE;
+}
+
+.bronze-text {
+  color: #B0C4DE;
+}
+
+.silver {
+  color: #fff;
+  background-color: #C0C0C0;
+ }
+
+.gold {
+  color: #fff;
+  background-color: #FFD700;
+ }
+
+.gold-text {
+    color:#FFD700;
+}
+
+.content .plan {
+    position:relative;
+    top:30px;
+    background:rgba(255,255,255,1);
+    padding-top:40px;
+    padding-bottom:40px;
+    border-radius:7px;
+    color:#777;
+    box-shadow:5px 5px 0 rgba(0,0,0,0.05);
+    -webkit-transition:all .3s ease-out;
+    transition:all .3s ease-out;
+}
+
+.content .plan.featured {
+    top:0;
+    padding-top:50px;
+    padding-bottom:50px;
+}
+
+.content .plan:hover,
+.content .plan.featured {
+    background:#5CC9DF;
+    color:#fff;
+}
+
+.content .plan h2 {
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:0;
+    text-transform:uppercase;
+}
+
+.content .plan.featured h2 {
+    margin-bottom:10px;
+}
+
+.content .plan p {
+    margin-bottom:5px;
+    font-weight:400;
+}
+
+.content .plan .icon {
+    display:inline-block;
+    margin-bottom:30px;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    font-size:48px;
+    line-height:120px;
+    -webkit-transition:all .3s ease-out;
+    transition:all .3s ease-out;
+}
+
+.content .plan.featured .icon,
+.content .plan:hover .icon{
+    color:#5cc9df;
+    background:#fff;
+}
+
+.content .plan .btn-pricing {
+    margin-top:20px;
+    margin-bottom:0;
+    font-size:16px;
+    padding:10px 20px;
+}
+
+.content .plan.featured .btn-pricing,
+.content .plan:hover .btn-pricing {
+    background: #fff;
+    color:#5CC9DF;
+}
+
+.content .plan .price {
+    font-size:48px;
+    font-weight:100;
+    line-height:48px;
+    margin-bottom:30px;
+}
+
+.content .plan.featured .price {
+    margin-bottom:40px;
+}
+
+input {
+	margin: 5px 0;
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 780px; /* or 950px */
+}
+
+@media (max-width: 480px) { /* resize buttons on smaller screens */
+	.btn-responsive {
+		padding:4px 6px;
+		font-size:80%;
+		line-height: 1;
+		border-radius:3px;
+	}
+}
+
+.text-underline {
+	text-decoration: underline;
+}
+
+.text-strong {
+	font-weight: bold;
+}
+
+.footer a {
+	color: #999;
+}
+
+#gamebuttonrow {
+	margin-bottom: 10px;
+}
+
+/* Dark mode toggle button */
+#darkToggle {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    line-height: 38px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* Dark mode */
+[data-theme="dark"] body {
+    background-color: #1c1c2e;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .well {
+    background-color: #2a2a3e;
+    border-color: #3a3a55;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .table {
+    color: #e0e0e0;
+}
+[data-theme="dark"] .table > thead > tr > td,
+[data-theme="dark"] .table > thead > tr > th {
+    background-color: #252538;
+    border-color: #3a3a55;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .table > tbody > tr > td,
+[data-theme="dark"] .table > tbody > tr > th {
+    border-color: #3a3a55;
+}
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #252538;
+}
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #1c1c2e;
+}
+[data-theme="dark"] .table-bordered {
+    border-color: #3a3a55;
+}
+[data-theme="dark"] a {
+    color: #7eb8ff;
+}
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-success,
+[data-theme="dark"] .btn-info,
+[data-theme="dark"] .btn-warning,
+[data-theme="dark"] .btn-danger {
+    color: #fff;
+}
+[data-theme="dark"] .footer a {
+    color: #888;
+}
+[data-theme="dark"] .text-muted {
+    color: #aaa !important;
+}
+[data-theme="dark"] .btn-default {
+    background-color: #3a3a55;
+    border-color: #4a4a6a;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .btn-default:hover,
+[data-theme="dark"] .btn-default:focus {
+    background-color: #4a4a6a;
+    border-color: #5a5a7a;
+    color: #fff;
+}
+[data-theme="dark"] .btn-default.active {
+    background-color: #5a5a7a;
+    color: #fff;
+}
+[data-theme="dark"] #darkToggle {
+    background-color: #2a2a3e;
+    border-color: #4a4a6a;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .dataTables_wrapper .pagination > li > a,
+[data-theme="dark"] .dataTables_wrapper .pagination > li > span,
+[data-theme="dark"] .dataTables_wrapper .page-link {
+    background-color: #2a2a3e !important;
+    border-color: #3a3a55 !important;
+    color: #7eb8ff !important;
+}
+[data-theme="dark"] .dataTables_wrapper .pagination > li > a:hover,
+[data-theme="dark"] .dataTables_wrapper .pagination > li > span:hover,
+[data-theme="dark"] .dataTables_wrapper .page-link:hover {
+    background-color: #3a3a55 !important;
+    border-color: #4a4a6a !important;
+    color: #fff !important;
+}
+[data-theme="dark"] .dataTables_wrapper .pagination > .active > a,
+[data-theme="dark"] .dataTables_wrapper .pagination > .active > a:hover,
+[data-theme="dark"] .dataTables_wrapper .pagination > .active > span,
+[data-theme="dark"] .dataTables_wrapper .page-item.active .page-link {
+    background-color: #3a3a55 !important;
+    border-color: #4a4a6a !important;
+    color: #fff !important;
+}
+[data-theme="dark"] .dataTables_wrapper .pagination > .disabled > a,
+[data-theme="dark"] .dataTables_wrapper .pagination > .disabled > span,
+[data-theme="dark"] .dataTables_wrapper .page-item.disabled .page-link {
+    background-color: #1c1c2e !important;
+    border-color: #2a2a3e !important;
+    color: #555 !important;
+}
+[data-theme="dark"] .modal-content {
+    background-color: #2a2a3e;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .modal-header {
+    border-bottom-color: #3a3a55;
+}
+[data-theme="dark"] .modal-footer {
+    border-top-color: #3a3a55;
+}
+[data-theme="dark"] .dropdown-menu {
+    background-color: #2a2a3e;
+    border-color: #3a3a55;
+}
+[data-theme="dark"] .dropdown-menu > li > a {
+    color: #e0e0e0;
+}
+[data-theme="dark"] .dropdown-menu > li > a:hover {
+    background-color: #3a3a55;
+    color: #fff;
+}
