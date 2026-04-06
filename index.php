@@ -292,27 +292,32 @@ $(function () {
 }
 
 .carousel-indicators li {
-  background-color: transparent;
-  border: none;
-  width: 36px;
-  height: 36px;
+  background-color: rgba(255,255,255,0.5);
+  border: 2px solid rgba(255,255,255,0.8);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
   text-indent: 0;
-  font-size: 20px;
-  line-height: 36px;
-  opacity: 0.35;
+  font-size: 18px;
+  line-height: 34px;
+  opacity: 0.55;
   margin: 0 4px;
   cursor: pointer;
 }
 .carousel-indicators .active {
-  background-color: transparent;
-  width: 36px;
-  height: 36px;
+  background-color: rgba(255,255,255,0.85);
+  border-color: #fff;
+  width: 38px;
+  height: 38px;
   opacity: 1;
 }
 ol.carousel-indicators {
-  position: static;
-  margin: 4px 0 0 0;
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
   width: auto;
+  margin: 0;
 }
 
 .row-fluid {
