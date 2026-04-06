@@ -312,12 +312,9 @@ $(function () {
   opacity: 1;
 }
 ol.carousel-indicators {
-  position: absolute;
-  bottom: 8px;
-  left: 0;
-  right: 0;
+  position: static;
   width: auto;
-  margin: 0;
+  margin: 8px 0 4px 0;
 }
 
 .row-fluid {
@@ -400,14 +397,6 @@ ol.carousel-indicators {
 
 <!-- Carousel container -->
 <div id="home" class="carousel slide" data-ride="carousel">
-
-<!-- Indicators -->
-<ol class="carousel-indicators">
-<li data-target="#home" data-slide-to="0" class="active"><i class="fas fa-user-friends" style="color:black;"></i></li>
-<li data-target="#home" data-slide-to="1"><i class="fas fa-crown" style="color:#D4AF37;"></i></li>
-<li data-target="#home" data-slide-to="2"><i class="fab fa-hotjar" style="color:red;"></i></li>
-<li data-target="#home" data-slide-to="3"><i class="fas fa-user-friends" style="color:#D4AF37;"></i></li>
-</ol>
 
 <!-- Content -->
 <div class="carousel-inner" role="listbox">
@@ -613,7 +602,13 @@ echo '<a href="game.php?game='.$spelid.'">'; ?><?php echo $tekst2; ?></a></font>
 <span class="sr-only">Next</span>
 </a> -->
 
-
+<!-- Indicators -->
+<ol class="carousel-indicators">
+<li data-target="#home" data-slide-to="0" class="active"><i class="fas fa-user-friends" style="color:black;"></i></li>
+<li data-target="#home" data-slide-to="1"><i class="fas fa-crown" style="color:#D4AF37;"></i></li>
+<li data-target="#home" data-slide-to="2"><i class="fab fa-hotjar" style="color:red;"></i></li>
+<li data-target="#home" data-slide-to="3"><i class="fas fa-user-friends" style="color:#D4AF37;"></i></li>
+</ol>
 
 </div>
 
