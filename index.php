@@ -284,6 +284,15 @@ $(function () {
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
+
+// Sync carousel indicators active state
+$(function () {
+  $('#home').on('slide.bs.carousel', function (e) {
+    var idx = $(e.relatedTarget).index();
+    $('.carousel-indicators li').removeClass('active');
+    $('.carousel-indicators li').eq(idx).addClass('active');
+  });
+})
 </script>
 <style>
 .nopadding {
@@ -314,7 +323,7 @@ $(function () {
 ol.carousel-indicators {
   position: static;
   width: auto;
-  margin: 8px 0 4px 0;
+  margin: 2px 0 2px 0;
 }
 
 .row-fluid {
