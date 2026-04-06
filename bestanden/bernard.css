@@ -254,6 +254,11 @@ input {
     border-color: #2a2a3e !important;
     color: #555 !important;
 }
+[data-theme="dark"] .table > tbody > tr.active > td,
+[data-theme="dark"] .table > tbody > tr.active > th {
+    background-color: #35354f;
+    color: #fff;
+}
 [data-theme="dark"] .modal-content {
     background-color: #2a2a3e;
     color: #e0e0e0;
