@@ -292,23 +292,26 @@ $(function () {
 }
 
 .carousel-indicators li {
-  background-color: #999;
-  background-color: rgba(70, 70, 70, 0.25);
-	width: 20px;
-	height: 20px;
+  background-color: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  text-indent: 0;
+  font-size: 20px;
+  line-height: 36px;
+  opacity: 0.35;
+  margin: 0 4px;
+  cursor: pointer;
 }
-
 .carousel-indicators .active {
-  background-color: #444;
-	width: 20px;
-	height: 20px;
+  background-color: transparent;
+  width: 36px;
+  height: 36px;
+  opacity: 1;
 }
 ol.carousel-indicators {
-  position: absolute;
-  bottom: 0;
-  margin: 0;
-  left: 0;
-  right: 0;
+  position: static;
+  margin: 4px 0 0 0;
   width: auto;
 }
 
@@ -395,10 +398,10 @@ ol.carousel-indicators {
 
 <!-- Indicators -->
 <ol class="carousel-indicators">
-<li data-target="#home" data-slide-to="0" class="active"></li>
-<li data-target="#home" data-slide-to="1"></li>
-<li data-target="#home" data-slide-to="2"></li>
-<li data-target="#home" data-slide-to="3"></li>
+<li data-target="#home" data-slide-to="0" class="active"><i class="fas fa-user-friends" style="color:black;"></i></li>
+<li data-target="#home" data-slide-to="1"><i class="fas fa-crown" style="color:#D4AF37;"></i></li>
+<li data-target="#home" data-slide-to="2"><i class="fab fa-hotjar" style="color:red;"></i></li>
+<li data-target="#home" data-slide-to="3"><i class="fas fa-user-friends" style="color:#D4AF37;"></i></li>
 </ol>
 
 <!-- Content -->
