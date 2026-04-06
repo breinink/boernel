@@ -405,7 +405,7 @@ ol.carousel-indicators {
 
 
 <!-- Carousel container -->
-<div id="home" class="carousel slide" data-ride="carousel">
+<div id="home" class="carousel slide" data-ride="carousel" data-interval="3000">
 
 <!-- Content -->
 <div class="carousel-inner" role="listbox">
