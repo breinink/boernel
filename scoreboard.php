@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/config/auth.php';
 $connect = dbConnect();
 $query ="SELECT Naam, Sub FROM `Spelerdata` WHERE Actief = 1 ORDER BY Sub ASC, Naam ASC";
 $result1 = mysqli_query($connect, $query);
@@ -84,7 +85,7 @@ $result4 = mysqli_query($connect, $query);
 					<div class="col-xs-12">
 						<span id="opwelkekleur">
 							<button id="harten" value="1" class="col-xs-4 btn btn-default btn-lg">Harten</button>
-							<button id="ruiten" value="2" class="col-xs-4 btn btn-default btn-lg">Schoppen</button>
+							<button id="schoppen" value="2" class="col-xs-4 btn btn-default btn-lg">Schoppen</button>
 							<button id="ruiten" value="3" class="col-xs-4 btn btn-default btn-lg">Ruiten</button>
 							<button id="klaveren" value="4" class="col-xs-4 btn btn-default btn-lg">Klaveren</button>
 							<button id="sans" value="5" class="col-xs-4 btn btn-default btn-lg">Sans</button>
@@ -437,6 +438,7 @@ echo date("Y"); ?> <a href="mailto:breinink@gmail.com">brein inc.</a> &nbsp;
 		<!-- JS -->
 		<script type="text/javascript" src="./bestanden/jquery.min.js"></script>
 		<script type="text/javascript" src="./bestanden/bootstrap.min.js"></script>
+		<script>var BOERNEL_TOKEN = '<?php echo API_TOKEN; ?>';</script>
 		<script type="text/javascript" src="./bestanden/app.js"></script>
 		<script type="text/javascript" src="./bestanden/jquery.cookie.js"></script>
 

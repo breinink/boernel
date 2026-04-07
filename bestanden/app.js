@@ -366,9 +366,9 @@ function undoLastMove() {
 	if(round > 1) {
 
 		round--;
-		$.post("config/del.php", { 'round': round, 'dateId': boernelDateId }, function(data) {
+		$.post("config/del.php", { 'round': round, 'dateId': boernelDateId, '_token': BOERNEL_TOKEN }, function(data) {
   // use the result
-  myalert(data);
+  myAlert(data);
 });
 
 		// fetch results of last round
@@ -601,11 +601,7 @@ function processRound(logit, confirmed) {
 
 	// log result row
 	if(logit)
-		var speler1data = 1200;
-		var speler2data = 1200;
-		var speler3data = 1200;
-		var speler4data = 1200;
-		$.post("config/put.php", { 'wie': wie, 'round': round, 'dateId': boernelDateId, 'op': op, 'voor': voor, 'PuntenTotaalWij': totaalwij, 'PuntenTotaalZij': totaalzij, 'Team': team, 'Speler1': spelers[0], 'Speler2': spelers[1], 'Speler3': spelers[2], 'Speler4': spelers[3], 'PuntenWij': puntenwij, 'PuntenZij': puntenzij, 'RoemWij': roemwij,'RoemZij': roemzij, 'deler': deler, 'Verzaker': verzaker, 'StatusWij': wijstatus, 'StatusZij': zijstatus});
+		$.post("config/put.php", { '_token': BOERNEL_TOKEN, 'wie': wie, 'round': round, 'dateId': boernelDateId, 'op': op, 'voor': voor, 'PuntenTotaalWij': totaalwij, 'PuntenTotaalZij': totaalzij, 'Team': team, 'Speler1': spelers[0], 'Speler2': spelers[1], 'Speler3': spelers[2], 'Speler4': spelers[3], 'PuntenWij': puntenwij, 'PuntenZij': puntenzij, 'RoemWij': roemwij,'RoemZij': roemzij, 'deler': deler, 'Verzaker': verzaker, 'StatusWij': wijstatus, 'StatusZij': zijstatus});
 
 
 

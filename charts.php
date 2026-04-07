@@ -22,10 +22,13 @@ $handen = array();
 $rows[] = 1200;
 
 $win[] = -1;
-$naam = $_GET["speler"];
+$naam = isset($_GET["speler"]) ? trim($_GET["speler"]) : '';
+if ($naam === '') { die("Ongeldige speler."); }
 $connect = dbConnect();
-$query ="SELECT * FROM `Boernel_spel_totaal` WHERE `Naam` = '$naam' ORDER BY `SpelID` ASC";
-$result = mysqli_query($connect, $query);
+$stmt = $connect->prepare("SELECT * FROM `Boernel_spel_totaal` WHERE `Naam` = ? ORDER BY `SpelID` ASC");
+$stmt->bind_param("s", $naam);
+$stmt->execute();
+$result = $stmt->get_result();
 $potten = 0;
 $pot_aantal = 0;
 $hand_aantal = 0;
@@ -48,12 +51,15 @@ $potten = $potten + 1;
 
 
 }
-$query2 ="SELECT * FROM `Boernel_spel_totaal` WHERE `Naam` = '$naam' ORDER BY `SpelID` DESC";
-$result2 = mysqli_query($connect, $query2);
+$stmt2 = $connect->prepare("SELECT * FROM `Boernel_spel_totaal` WHERE `Naam` = ? ORDER BY `SpelID` DESC");
+$stmt2->bind_param("s", $naam);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
 
-
-$query3 ="SELECT Boernel_spel_totaal.SpelID, Boernel_spel_totaal.Maat, spelrondes.ID, spelrondes.Wie, spelrondes.Team, spelrondes.PuntenWij, spelrondes.PuntenZij FROM Boernel_spel_totaal INNER JOIN spelrondes ON Boernel_spel_totaal.SpelID = spelrondes.boernelDateID WHERE Boernel_spel_totaal.Naam = '$naam' ORDER BY Boernel_spel_totaal.SpelID ASC, spelrondes.ID ASC";
-$result3 = mysqli_query($connect, $query3);
+$stmt3 = $connect->prepare("SELECT Boernel_spel_totaal.SpelID, Boernel_spel_totaal.Maat, spelrondes.ID, spelrondes.Wie, spelrondes.Team, spelrondes.PuntenWij, spelrondes.PuntenZij FROM Boernel_spel_totaal INNER JOIN spelrondes ON Boernel_spel_totaal.SpelID = spelrondes.boernelDateID WHERE Boernel_spel_totaal.Naam = ? ORDER BY Boernel_spel_totaal.SpelID ASC, spelrondes.ID ASC");
+$stmt3->bind_param("s", $naam);
+$stmt3->execute();
+$result3 = $stmt3->get_result();
 $rows2[] = null;
 $rows3[] = null;
 while($row = mysqli_fetch_array($result3))

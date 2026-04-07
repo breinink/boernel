@@ -101,7 +101,7 @@ $tijd2 = (time() - 100 * 24 * 3600) * 1000;
                          echo '
                          <tr>
                              <td>'.$i.'</td>
-                              <td><a href="charts2.php?speler='.$row["Naam"].'">'.$row["Naam"].'</a>'.(($i==1)?' <font color="#D4AF37"><i class="fa fa-trophy"></i></font>':'').(($i==2)?' <font color="#C0C0C0"><i class="fa fa-medal"></i></font>':'').(($i==3)?' <font color="#cd7f32"><i class="fa fa-medal"></i></font>':'').'</td>
+                              <td><a href="charts2.php?speler='.htmlspecialchars($row["Naam"],ENT_QUOTES,"UTF-8").'">'.htmlspecialchars($row["Naam"],ENT_QUOTES,"UTF-8").'</a>'.(($i==1)?' <font color="#D4AF37"><i class="fa fa-trophy"></i></font>':'').(($i==2)?' <font color="#C0C0C0"><i class="fa fa-medal"></i></font>':'').(($i==3)?' <font color="#cd7f32"><i class="fa fa-medal"></i></font>':'').'</td>
                               <td>'.$row["ELO_na"].'</td>
                          </tr>
                          ';

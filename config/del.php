@@ -1,29 +1,20 @@
-<!DOCTYPE html>
-<html>
-
-<body>
-
 <?php
 require_once __DIR__ . '/db.php';
-$ronde = $_POST["round"];
-$datum = $_POST["dateId"];
+require_once __DIR__ . '/auth.php';
+requireToken();
+
+$ronde = (int)$_POST["round"];
+$datum = (int)$_POST["dateId"];
 
 $con = dbConnect();
-if (!$con) {
-    die('Could not connect: ' . mysqli_error($con));
-}
 
-mysqli_select_db($con,"ajax_demo");
-$sql  = "DELETE FROM spelrondes WHERE boernelDateID = $datum AND Hand = $ronde";
-//$result = mysqli_query($con,$sql);
-if ($con->query($sql) === TRUE) {
+$stmt = $con->prepare("DELETE FROM spelrondes WHERE boernelDateID = ? AND Hand = ?");
+$stmt->bind_param("ii", $datum, $ronde);
+if ($stmt->execute()) {
     echo "Round deleted";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    error_log("del.php fout: " . $stmt->error);
+    echo "Fout bij verwijderen.";
 }
-
-mysqli_close($con);
-
-?>
-</body>
-</html>
+$stmt->close();
+$con->close();

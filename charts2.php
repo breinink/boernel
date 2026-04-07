@@ -67,7 +67,8 @@ $PitTA_P = 0.0;
 $verzaakt = 0;
 $verzaakt_P = 0.0;
 
-$naam = $_GET["speler"];
+$naam = isset($_GET["speler"]) ? trim($_GET["speler"]) : '';
+if ($naam === '') { die("Ongeldige speler."); }
 $foto = "fotos/";
 $foto .= $naam;
 $foto .= ".png";
@@ -323,8 +324,10 @@ while($row = mysqli_fetch_array($result2))
 }
 $ELO_A = round(array_sum($ELOs)/count($ELOs),0);
 $winst_P = round(($winst / $pot) * 100,1);
-$query2 ="SELECT Maat, count(DISTINCT SpelID) as Potten, sum(if(PuntenWij>PuntenZij,1,0))/count(DISTINCT SpelID)*100 as Winst FROM `Boernel_spel_totaal` WHERE Naam = '$naam' GROUP by Maat";
-$result2 = mysqli_query($connect, $query2);
+$stmt_maat = $connect->prepare("SELECT Maat, count(DISTINCT SpelID) as Potten, sum(if(PuntenWij>PuntenZij,1,0))/count(DISTINCT SpelID)*100 as Winst FROM `Boernel_spel_totaal` WHERE Naam = ? GROUP by Maat");
+$stmt_maat->bind_param("s", $naam);
+$stmt_maat->execute();
+$result2 = $stmt_maat->get_result();
 
 ?>
 <!DOCTYPE html>
@@ -424,16 +427,14 @@ $result2 = mysqli_query($connect, $query2);
         <a href="stats.php" class="btn btn-info btn-lg" role="button">Ranglijst</a>
     </div>
     <div class="col-xs-6 text-right">
-      <a href="charts.php?speler=<?php
-print_r($naam);?>" class="btn btn-warning btn-lg" role="button">ELO-ontwikkeling</a>
+      <a href="charts.php?speler=<?php echo htmlspecialchars($naam, ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-warning btn-lg" role="button">ELO-ontwikkeling</a>
       </div>
     </div>
     <div>
       <br>
       <div class="row">
       <div class="col-xs-12 text-center">
-        <h3><b><font color="#777777"><?php
-print_r($naam);?></font></b></h3>
+        <h3><b><font color="#777777"><?php echo htmlspecialchars($naam, ENT_QUOTES, 'UTF-8'); ?></font></b></h3>
       </div>
       </div>
       <div class="row">

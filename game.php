@@ -189,13 +189,11 @@ echo $foto4; ?>" class="img-rounded img-responsive pull-left" alt="Speler 4">
     </div>
     <div class="row">
     <div class="col-xs-6 text-left">
-    <h4><font color="#EB984E"><?php
-echo $wijnaam?><br><?php echo $kans1?>%</font></h4>
+    <h4><font color="#EB984E"><?php echo htmlspecialchars($wijnaam, ENT_QUOTES, 'UTF-8'); ?><br><?php echo (int)$kans1?>%</font></h4>
     </div>
 
     <div class="col-xs-6 text-right">
-    <h4><font color="#5499C7"><?php
-echo $zijnaam?><br><?php echo $kans2?>%</font></h4>
+    <h4><font color="#5499C7"><?php echo htmlspecialchars($zijnaam, ENT_QUOTES, 'UTF-8'); ?><br><?php echo (int)$kans2?>%</font></h4>
     </div>
   </div>
 <div class="container-fluid text-center">
@@ -224,7 +222,7 @@ echo $p3?> &<br><?php echo $p4?></font></td>
                echo '
                <tr>
                    <td>'.$row["Hand"].'</td>
-                   <td>'.(($row["Team"]=="wij")?'<font color="#EB984E"':'<font color="#5499C7"').'>'.$row["Wie"].' ('.$row["Voor"].') '.'</font><br>'.(($row["StatusWij"]=="G")?'<font color="green">'.'Gehaald'.'</font>':"").(($row["StatusWij"]=="P")?'<font color="green">'.'Pit'.'</font>':"").(($row["Team"]=="wij"&&$row["StatusWij"]=="V")?'<font color="red">'.'Verzaakt ('.$row["verzaker"].')</font>':"").(($row["Team"]=="wij"&&$row["StatusZij"]=="V")?'<font color="green">'.'Verzaakt ('.$row["verzaker"].')</font>':"").(($row["StatusWij"]=="N")?'<font color="red">'.'Nat'.'</font>':"").(($row["StatusZij"]=="G")?'<font color="green">'.'Gehaald'.'</font>':"").(($row["StatusZij"]=="P")?'<font color="green">'.'Pit'.'</font>':"").(($row["Team"]=="zij"&&$row["StatusZij"]=="V")?'<font color="red">'.'Verzaakt ('.$row["verzaker"].')</font>':"").(($row["Team"]=="zij"&&$row["StatusWij"]=="V")?'<font color="green">'.'Verzaakt ('.$row["verzaker"].')</font>':"").(($row["StatusZij"]=="N")?'<font color="red">'.'Nat'.'</font>':"").'</td>
+                   <td>'.(($row["Team"]=="wij")?'<font color="#EB984E"':'<font color="#5499C7"').'>'.htmlspecialchars($row["Wie"],ENT_QUOTES,'UTF-8').' ('.((int)$row["Voor"]).') '.'</font><br>'.(($row["StatusWij"]=="G")?'<font color="green">'.'Gehaald'.'</font>':"").(($row["StatusWij"]=="P")?'<font color="green">'.'Pit'.'</font>':"").(($row["Team"]=="wij"&&$row["StatusWij"]=="V")?'<font color="red">'.'Verzaakt ('.htmlspecialchars($row["verzaker"],ENT_QUOTES,'UTF-8').')</font>':"").(($row["Team"]=="wij"&&$row["StatusZij"]=="V")?'<font color="green">'.'Verzaakt ('.htmlspecialchars($row["verzaker"],ENT_QUOTES,'UTF-8').')</font>':"").(($row["StatusWij"]=="N")?'<font color="red">'.'Nat'.'</font>':"").(($row["StatusZij"]=="G")?'<font color="green">'.'Gehaald'.'</font>':"").(($row["StatusZij"]=="P")?'<font color="green">'.'Pit'.'</font>':"").(($row["Team"]=="zij"&&$row["StatusZij"]=="V")?'<font color="red">'.'Verzaakt ('.htmlspecialchars($row["verzaker"],ENT_QUOTES,'UTF-8').')</font>':"").(($row["Team"]=="zij"&&$row["StatusWij"]=="V")?'<font color="green">'.'Verzaakt ('.htmlspecialchars($row["verzaker"],ENT_QUOTES,'UTF-8').')</font>':"").(($row["StatusZij"]=="N")?'<font color="red">'.'Nat'.'</font>':"").'</td>
                    <td>'.$row["PuntenWij"].(($row["RoemWij"]>0)?' + '.$row["RoemWij"]:'').'<br><b>'.(($row["TotaalPuntenWij"]>$row["PuntenTotaalZij"])?'<font color="green">'.$row["TotaalPuntenWij"].'</font>':"").(($row["TotaalPuntenWij"]<$row["PuntenTotaalZij"])?'<font color="red">'.$row["TotaalPuntenWij"].'</font>':"").(($row["TotaalPuntenWij"]==$row["PuntenTotaalZij"])?'<font color="black">'.$row["TotaalPuntenWij"].'</font>':"").'</b></td>
                    <td>'.$row["PuntenZij"].(($row["RoemZij"]>0)?' + '.$row["RoemZij"]:'').'<br><b>'.(($row["TotaalPuntenWij"]<$row["PuntenTotaalZij"])?'<font color="green">'.$row["PuntenTotaalZij"].'</font>':"").(($row["TotaalPuntenWij"]>$row["PuntenTotaalZij"])?'<font color="red">'.$row["PuntenTotaalZij"].'</font>':"").(($row["TotaalPuntenWij"]==$row["PuntenTotaalZij"])?'<font color="black">'.$row["PuntenTotaalZij"].'</font>':"").'</b></td>
                </tr>
