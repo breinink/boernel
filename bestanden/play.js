@@ -177,10 +177,7 @@ Hand.prototype.validPlays = function (ledSuit, trump) {
     var suitCards = this.cardsOfSuit(ledSuit);
     if (suitCards.length > 0) return suitCards; // must follow suit
 
-    var trumpCards = this.cardsOfSuit(trump);
-    if (trumpCards.length > 0) return trumpCards; // must trump
-
-    return this._cards.slice(); // free play
+    return this._cards.slice(); // Amsterdamse regels: geen verplicht troeven
 };
 
 /**
@@ -283,6 +280,47 @@ Object.defineProperty(Trick.prototype, 'points', {
         return this._plays.reduce(function (sum, p) { return sum + p.card.value(trump); }, 0);
     }
 });
+
+// ============================================================
+// Roem detectie op tafel (Amsterdamse regels)
+// Controleert de 4 gespeelde kaarten op roem; winnaar van de slag krijgt de punten.
+// ============================================================
+function detectTrickRoem(plays, trump) {
+    var cards = plays.map(function (p) { return p.card; });
+    var results = [];
+
+    // Stuk: K + Q van troef in dezelfde slag → 20 pt
+    if (trump) {
+        var hasK = cards.some(function (c) { return c.rank === 'K' && c.suit === trump; });
+        var hasQ = cards.some(function (c) { return c.rank === 'Q' && c.suit === trump; });
+        if (hasK && hasQ) {
+            results.push({ type: 'stuk', points: 20, description: 'Stuk ' + SUIT_SYMBOLS[trump] });
+        }
+    }
+
+    // Reeksen: 3+ opeenvolgende kaarten van hetzelfde symbool in de slag
+    for (var si = 0; si < SUITS.length; si++) {
+        var suit = SUITS[si];
+        var idxs = cards
+            .filter(function (c) { return c.suit === suit; })
+            .map(function (c) { return SEQ_ORDER.indexOf(c.rank); })
+            .sort(function (a, b) { return a - b; });
+        if (idxs.length < 3) continue;
+        var runStart = 0;
+        for (var i = 1; i <= idxs.length; i++) {
+            if (i === idxs.length || idxs[i] !== idxs[i - 1] + 1) {
+                var runLen = i - runStart;
+                if (runLen >= 3) {
+                    var pts = runLen >= 5 ? 100 : (runLen === 4 ? 50 : 20);
+                    results.push({ type: 'sequence', points: pts,
+                        description: runLen + '-reeks ' + SUIT_SYMBOLS[suit] });
+                }
+                runStart = i;
+            }
+        }
+    }
+    return results;
+}
 
 // ============================================================
 // AI Strategy — extensible pattern
@@ -608,7 +646,8 @@ KlaverjasGame.prototype._finalizeBidding = function () {
     this.emit('trumpSet', this.trump, this.bidder, this.bidAmount);
 
     var self = this;
-    setTimeout(function () { self._startRoem(); }, 600);
+    // Amsterdamse regels: geen roem-aankondiging voor het spel, direct starten
+    setTimeout(function () { self.startPlaying(); }, 600);
 };
 
 // --- Roem ---
@@ -713,9 +752,15 @@ KlaverjasGame.prototype._endTrick = function () {
 
     var team = WIJ_TEAM.indexOf(winner) !== -1 ? 'wij' : 'zij';
     this._trickScores[team] += total;
+
+    // Roem op tafel — winnaar van de slag krijgt de roempunten
+    var roemItems = detectTrickRoem(this._currentTrick.plays, this.trump);
+    var roemPts = roemItems.reduce(function (s, r) { return s + r.points; }, 0);
+    if (roemPts > 0) this._roemScores[team] += roemPts;
+
     this._trickLog.push({ trickNumber: this._tricks, winner: winner, points: total, team: team });
 
-    this.emit('trickWon', winner, this._currentTrick, total, this._tricks);
+    this.emit('trickWon', winner, this._currentTrick, total, this._tricks, roemItems);
 
     if (isLast) {
         // Check if one team won all 8 tricks (Pit)
@@ -795,11 +840,6 @@ KlaverjasGame.prototype._endHand = function () {
 
     this._handLog.push(handResult);
     this.emit('handComplete', handResult);
-
-    if (this.scores.wij >= 1500 || this.scores.zij >= 1500) {
-        this.phase = PHASE.GAMEOVER;
-        this.emit('gameOver', this.scores, this._handLog);
-    }
 };
 
 // Called by UI to start the next hand after the player has seen the result
@@ -848,7 +888,7 @@ KlaverjasUI.prototype._bindGameEvents = function () {
     g.on('trickStart',      function (leader, nr)        { self._onTrickStart(leader, nr); });
     g.on('playerTurn',      function (seat, valid)       { self._onPlayerTurn(seat, valid); });
     g.on('cardPlayed',      function (seat, card, plays) { self._onCardPlayed(seat, card, plays); });
-    g.on('trickWon',        function (w, trick, pts, nr) { self._onTrickWon(w, trick, pts, nr); });
+    g.on('trickWon',        function (w, trick, pts, nr, roem) { self._onTrickWon(w, trick, pts, nr, roem); });
     g.on('handComplete',    function (result)            { self._onHandComplete(result); });
     g.on('gameOver',        function (scores, log)       { self._onGameOver(scores, log); });
 };
@@ -896,17 +936,51 @@ KlaverjasUI.prototype._bindUserEvents = function () {
 
     // Human plays a card
     $(document).on('click', '.card-playable', function () {
-        var cardId = $(this).data('card-id');
+        if (!self.game._awaitingHumanPlay) return;
+
+        var cardId  = $(this).data('card-id');
+        var hand    = self.game.getHand('Zuid');
+        var allCards = hand.cards;
         var card = null;
-        for (var i = 0; i < self._valid.length; i++) {
-            if (self._valid[i].id === cardId) { card = self._valid[i]; break; }
+        for (var i = 0; i < allCards.length; i++) {
+            if (allCards[i].id === cardId) { card = allCards[i]; break; }
         }
-        if (card) self.game.humanPlay(card);
+        if (!card) return;
+
+        // Controleer verzaken: speler heeft het aangelegde symbool maar speelt iets anders
+        var trick = self.game._currentTrick;
+        if (trick && trick.ledSuit && card.suit !== trick.ledSuit && hand.hasSuit(trick.ledSuit)) {
+            self._addMessage(
+                '<strong>Verzaakt!</strong> Je hebt ' + SUIT_NAMES[trick.ledSuit] +
+                ' ' + SUIT_SYMBOLS[trick.ledSuit] + ' — je moet die kleur spelen. Kies opnieuw.',
+                'danger'
+            );
+            return;
+        }
+
+        self.game.humanPlay(card);
     });
 
-    // New game button in modal
+    // Volgende hand knop
+    $('#next-hand-btn').on('click', function () {
+        $('#next-hand-panel').hide();
+        self.game.startHand();
+    });
+
+    // Reset sessie (inline)
+    $('#new-game-btn-inline').on('click', function () {
+        $('#next-hand-panel').hide();
+        $('#hand-history-body').empty();
+        $('#play-messages').empty().hide();
+        $('#roem-list').empty();
+        self.game.resetGame();
+        setTimeout(function () { self.game.startHand(); }, 400);
+    });
+
+    // Nieuwe sessie knop
     $('#new-game-btn').on('click', function () {
         $('#gameover-modal').modal('hide');
+        $('#next-hand-panel').hide();
         $('#hand-history-body').empty();
         $('#play-messages').empty().hide();
         $('#roem-list').empty();
@@ -942,26 +1016,27 @@ KlaverjasUI.prototype._onHandsDealt = function (hands, dealer) {
         }
     });
 
-    this._renderHumanHand(hands['Zuid'].cards, []);
+    this._renderHumanHand(hands['Zuid'].cards);
 };
 
-KlaverjasUI.prototype._renderHumanHand = function (cards, validCards) {
+KlaverjasUI.prototype._renderHumanHand = function (cards) {
+    // Sorteer op symbool (H, D, S, C) dan hoog naar laag binnen elk symbool
+    var SUIT_DISPLAY_ORDER = { 'H': 0, 'D': 1, 'S': 2, 'C': 3 };
+    var sorted = cards.slice().sort(function (a, b) {
+        if (a.suit !== b.suit) return SUIT_DISPLAY_ORDER[a.suit] - SUIT_DISPLAY_ORDER[b.suit];
+        return SEQ_ORDER.indexOf(b.rank) - SEQ_ORDER.indexOf(a.rank);
+    });
     var el = $('#hand-zuid').empty();
-    for (var i = 0; i < cards.length; i++) {
-        var card    = cards[i];
-        var isValid = validCards.length === 0 ||
-            validCards.some(function (v) { return v.id === card.id; });
-        var img = $('<img>')
-            .addClass('card-img')
-            .attr('src', card.imgSrc)
-            .attr('alt', card.label)
-            .attr('data-card-id', card.id)
-            .attr('title', card.label);
-        if (validCards.length > 0) {
-            if (isValid) img.addClass('card-playable');
-            else         img.addClass('card-invalid');
-        }
-        el.append(img);
+    for (var i = 0; i < sorted.length; i++) {
+        var card = sorted[i];
+        el.append(
+            $('<img>')
+                .addClass('card-img card-playable')
+                .attr('src', card.imgSrc)
+                .attr('alt', card.label)
+                .attr('data-card-id', card.id)
+                .attr('title', card.label)
+        );
     }
 };
 
@@ -1033,8 +1108,8 @@ KlaverjasUI.prototype._onTrickStart = function () {
 
 KlaverjasUI.prototype._onPlayerTurn = function (seat, valid) {
     if (seat === 'Zuid') {
-        this._valid = valid;
-        this._renderHumanHand(this.game.getHand('Zuid').cards, valid);
+        this._valid = valid; // bewaard voor eventuele referentie
+        this._renderHumanHand(this.game.getHand('Zuid').cards);
     }
 };
 
@@ -1046,18 +1121,21 @@ KlaverjasUI.prototype._onCardPlayed = function (seat, card) {
 
     if (seat === 'Zuid') {
         this._valid = [];
-        this._renderHumanHand(this.game.getHand('Zuid').cards, []);
+        this._renderHumanHand(this.game.getHand('Zuid').cards);
     } else {
         // Remove one card back from AI hand display
         $('#hand-' + seat.toLowerCase()).find('.card-img-back:last').remove();
     }
 };
 
-KlaverjasUI.prototype._onTrickWon = function (winner, trick, pts, trickNr) {
-    this._addMessage(
-        'Slag ' + trickNr + ': <strong>' + winner + '</strong> wint (' + pts + ' punten)',
-        'info'
-    );
+KlaverjasUI.prototype._onTrickWon = function (winner, trick, pts, trickNr, roemItems) {
+    var roemPts = (roemItems || []).reduce(function (s, r) { return s + r.points; }, 0);
+    var msg = 'Slag ' + trickNr + ': <strong>' + winner + '</strong> wint (' + pts + ' pt)';
+    if (roemPts > 0) {
+        var desc = (roemItems || []).map(function (r) { return r.description + ' +' + r.points; }).join(', ');
+        msg += ' + <strong>roem: ' + roemPts + ' pt</strong> (' + desc + ')';
+    }
+    this._addMessage(msg, 'info');
     var seatEl = $('#seat-' + winner.toLowerCase());
     seatEl.addClass('seat-winning');
     setTimeout(function () { seatEl.removeClass('seat-winning'); }, DELAY_TRICK_END - 300);
@@ -1090,10 +1168,19 @@ KlaverjasUI.prototype._onHandComplete = function (result) {
         msgType
     );
 
-    if (result.totalWij < 1500 && result.totalZij < 1500) {
-        var self = this;
-        setTimeout(function () { self.game.acknowledgeHand(); }, 2500);
-    }
+    // Sla deze hand op in de database
+    $.post('config/play-save.php', {
+        '_token':      window.BOERNEL_TOKEN,
+        'game_id':     this.game.gameId,
+        'hands':       1,
+        'score_wij':   result.finalWij,
+        'score_zij':   result.finalZij,
+        'ai_level':    this.game.aiLevel,
+        'detail_json': JSON.stringify(result)
+    });
+
+    // Toon knop voor volgende hand
+    $('#next-hand-panel').show();
 };
 
 KlaverjasUI.prototype._onGameOver = function (scores, handLog) {

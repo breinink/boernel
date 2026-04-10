@@ -189,6 +189,28 @@ require_once __DIR__ . '/config/auth.php';
         #score-display .score-zij { color: #9b3333; }
         [data-theme="dark"] #score-display .score-wij { color: #66cc66; }
         [data-theme="dark"] #score-display .score-zij { color: #ff8080; }
+
+        /* ---- Kleine schermen: verhoog tafel, verklein kaarten ---- */
+        @media (max-width: 480px) {
+            #game-table {
+                aspect-ratio: 3 / 4;   /* hoger dan breed zodat Zuid niet overlapt */
+            }
+            #trick-area {
+                width: 150px;
+                height: 120px;
+            }
+            .card-img {
+                width: 36px;
+            }
+            #hand-west .card-img,
+            #hand-oost .card-img {
+                margin-top: -30px;
+            }
+            #hand-west .card-img:first-child,
+            #hand-oost .card-img:first-child {
+                margin-top: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -294,6 +316,13 @@ require_once __DIR__ . '/config/auth.php';
         <h5 style="margin:0 0 6px;">Roem</h5>
         <ul id="roem-list"></ul>
         <button id="roem-ok" class="btn btn-primary btn-sm">Verder ›</button>
+    </div>
+
+    <!-- Volgende hand panel -->
+    <div id="next-hand-panel" class="well well-sm text-center" style="display:none; margin-top:10px;">
+        <strong>Hand gespeeld!</strong>
+        <button id="next-hand-btn" class="btn btn-primary btn-sm" style="margin-left:10px;">Volgende hand ›</button>
+        <button id="new-game-btn-inline" class="btn btn-default btn-sm" style="margin-left:6px;">Reset sessie</button>
     </div>
 
     <!-- Message feed -->
